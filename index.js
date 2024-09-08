@@ -58,13 +58,6 @@ bot.onText(/\/help/, (msg) => {
   bot.sendMessage(chatId, "Use /options to view meal categories and make an order. Use /myorders to view your order history.");
 });
 
-// bot.on("message", (msg) => {
-//   const chatId = msg.chat.id;
-//   if (msg.text) { // Check if the message has text
-//     const message = msg.text;
-//     bot.sendMessage(chatId, ` မရောင်းနိုင်ဘူး`);
-//   }
-// });
 
 bot.onText(/\/options/, (msg) => {
   const chatId = msg.chat.id;
