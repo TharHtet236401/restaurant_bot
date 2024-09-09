@@ -94,11 +94,13 @@ bot.on("callback_query", async (callbackQuery) => {
       };
       try {
         await bot.sendPhoto(msg.chat.id, meal.image, { caption: caption, ...opts });
+        
       } catch (error) {
         console.error(`Failed to send photo for ${meal.name}:`, error);
         bot.sendMessage(msg.chat.id, `${caption}\n(Image unavailable)`, opts);
       }
     }
+    await sendMealCategories(chatId);
   } else if (data.startsWith('order_')) {
     const [_, category, ...mealNameParts] = data.split('_');
     const mealName = mealNameParts.join('_');
