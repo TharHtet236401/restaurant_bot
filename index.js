@@ -215,14 +215,21 @@ bot.onText(/\/myorders/, async (msg) => {
         response += `📅 ${order.orderedAt.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}\n`;
         response += `🕒 ${order.orderedAt.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}\n\n`;
         
+        response += "```\n"; // Start of monospace block for better alignment
+        response += "Item                  Qty   Price    Subtotal\n";
+        response += "--------------------------------------------\n";
+        
         order.items.forEach(item => {
-          response += `• ${item.quantity}x ${item.mealName} (${item.mealType})\n`;
-          response += `  💰 $${item.price.toFixed(2)} each\n`;
-          response += `  📊 Subtotal: $${item.totalPrice.toFixed(2)}\n\n`;
+          const itemName = `${item.mealName}`.padEnd(20);
+          const quantity = item.quantity.toString().padStart(3);
+          const price = `$${item.price.toFixed(2)}`.padStart(8);
+          const subtotal = `$${item.totalPrice.toFixed(2)}`.padStart(9);
+          response += `${itemName} ${quantity} ${price} ${subtotal}\n`;
         });
         
-        response += `*Total: $${order.totalPrice.toFixed(2)}*\n`;
-        response += `------------------------\n\n`;
+        response += "--------------------------------------------\n";
+        response += `${"Total:".padEnd(32)}$${order.totalPrice.toFixed(2)}\n`;
+        response += "```\n\n"; // End of monospace block
       });
       bot.sendMessage(chatId, response, { parse_mode: 'Markdown' });
     } else {
